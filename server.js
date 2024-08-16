@@ -7,14 +7,16 @@ const port = process.env.PORT || 3001;
 
 const categoriesRoutes = require("./routes/categories")
 const productsRoutes = require("./routes/products")
+const authRoutes = require("./routes/auth")
 
 app.use(express.json());
 app.use(cors());
 
 
+app.use("/api/auth", authRoutes);
 app.use("/api/categories", categoriesRoutes);
 app.use("/api/products", productsRoutes);
-
+app.use("/api/orders", productsRoutes);
 
 
 // to handle the thrown errors in my controllers

@@ -1,7 +1,7 @@
 const db = require("../db")
 
 exports.createProduct = async (req, res, next) => {
-    const { name, description, price, base64Img, categoryId } = req.body;
+    const { name, description, price, base64Img, categoryId, quantity } = req.body;
 
     try {
         if (!name) {
@@ -10,16 +10,16 @@ exports.createProduct = async (req, res, next) => {
             throw error;
         }
 
-        const query = 'INSERT INTO product (name, description, price, base64Img, categoryId) VALUES (?, ?, ?, ?, ?)';
+        const query = 'INSERT INTO product (name, description, price, base64Img, categoryId,quantity) VALUES (?, ?, ?, ?, ?, ?)';
 
-        db.query(query, [name, description, price, base64Img, categoryId], (error, results) => {
+        db.query(query, [name, description, price, base64Img, categoryId,quantity], (error, results) => {
             if (error) {
 
                 const error = new Error("error inserting product into db");
                 error.statusCode = 500;
                 throw error;
             }
-            res.status(201).json({ message: 'Product inserted successfully', id: results.insertId, name, description, price, categoryId, base64Img });
+            res.status(201).json({ message: 'Product inserted successfully', id: results.insertId, name, description, price, categoryId, base64Img, quantity });
         });
     }
     catch (error) {
