@@ -25,3 +25,23 @@ exports.createCategory = async (req, res, next) => {
         next(error);
     }
 }
+
+exports.getCategories = async (req, res, next) => {
+
+    try {
+        const categoriesQuery = "SELECT * From categories"
+
+        const categories = await new Promise((resolve, reject) => {
+            db.query(categoriesQuery, [], (error, results) => {
+                if (error) reject(error);
+                else resolve(results);
+            });
+        });
+
+        return res.status(401).json({ message: "categories fetched successufly", categories })
+    }
+
+    catch (error) {
+        next(error)
+    }
+}

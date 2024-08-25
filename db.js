@@ -1,6 +1,5 @@
 const mysql = require('mysql2');
 
-
 // MySQL connection
 const connection = mysql.createConnection({
     host: 'localhost',
@@ -8,7 +7,6 @@ const connection = mysql.createConnection({
     password: process.env.DB_PASSWORD,
     database: 'ecommerce'
 });
-
 
 connection.connect((err) => {
     if (err) {
