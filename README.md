@@ -2,6 +2,8 @@
 
 this is a node backend that serves endpoints for an e-commerce app.
 
+# Steps to launch the app
+
 1- modify your env variables in the compose.yaml file. (mainly everything related to database credentials, rest can stay the same)
 
 2- run the app, this should create 2 docker containers, one for the MySQL database and another one for the node backend.
