@@ -10,7 +10,7 @@ exports.createCategory = async (req, res, next) => {
             throw error;
         }
 
-        const query = 'INSERT INTO category (name) VALUES (?)';
+        const query = 'INSERT INTO categories (name) VALUES (?)';
 
         db.query(query, [name], (error, results) => {
             if (error) {

@@ -15,7 +15,7 @@ exports.signUp = async (req, res, next) => {
             throw error;
         }
 
-        const query = 'INSERT INTO user (email,name,password) VALUES (?,?,?)';
+        const query = 'INSERT INTO users (email,name,password) VALUES (?,?,?)';
 
         db.query(query, [email, name, encryptedPassword], (error, results) => {
             if (error) {
@@ -34,7 +34,7 @@ exports.login = async (req, res, next) => {
     const { email, password } = req.body;
 
     try {
-        const query = "SELECT * FROM user WHERE email = ?";
+        const query = "SELECT * FROM users WHERE email = ?";
 
         const results = await new Promise((resolve, reject) => {
             db.query(query, [email], (error, results) => {

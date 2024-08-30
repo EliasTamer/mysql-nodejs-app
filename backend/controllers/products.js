@@ -10,7 +10,7 @@ exports.createProduct = async (req, res, next) => {
             throw error;
         }
 
-        const query = 'INSERT INTO product (name, description, price, base64Img, categoryId,quantity) VALUES (?, ?, ?, ?, ?, ?)';
+        const query = 'INSERT INTO products (name, description, price, base64Img, categoryId,quantity) VALUES (?, ?, ?, ?, ?, ?)';
 
         db.query(query, [name, description, price, base64Img, categoryId, quantity], (error, results) => {
             if (error) {

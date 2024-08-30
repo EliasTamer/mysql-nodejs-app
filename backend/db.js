@@ -2,11 +2,11 @@ const mysql = require('mysql2');
 
 // MySQL connection
 const connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
-    database: 'ecommerce'
-});
+    database: process.env.DB_NAME,
+  });
 
 connection.connect((err) => {
     if (err) {

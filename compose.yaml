@@ -1,0 +1,57 @@
+version: '3.9'
+
+services:
+  # Define the Node.js app service
+  # define the api service/container
+  api: 
+    # api service depends on the db service so the db service will be started before the api service
+    depends_on: 
+      - mysql
+
+    # specify the build context for the api service
+    build: ./backend
+    
+    # specify the ports to expose for the api service
+    # the first number is the port on the host machine
+    # the second number is the port inside the container
+    ports: 
+      - 8000:8000
+
+    # specify environment variables for the api service
+    # for demo purposes, we're using a local mysql instance
+    environment: 
+      - DB_HOST=mysql
+      - DB_USER=root
+      - DB_PASSWORD=yourpasswordhere
+      - DB_NAME=ecommerce
+      - PORT=8000
+    
+    # establish docker compose watch mode for the api service
+    develop:
+      # specify the files to watch for changes
+      watch:
+        # it'll watch for changes in package.json and package-lock.json and rebuild the container and image if there are any changes
+        - path: ./backend/package.json
+          action: rebuild
+        - path: ./backend/package-lock.json
+          action: rebuild
+        
+        # it'll watch for changes in the backend directory and sync the changes with the container real time
+        - path: ./backend
+          target: /app
+          action: sync
+
+  # Define the MySQL service
+  mysql:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: yourpassowrdhere
+      MYSQL_DATABASE: ecommerce
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  mysql_data:
