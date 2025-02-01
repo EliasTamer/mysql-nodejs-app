@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - dev
-    paths:
-      - 'backend/**'  # Only trigger when changes are made in backend folder
 
 env:
   ACR_REGISTRY: myacr997.azurecr.io
@@ -34,7 +32,6 @@ jobs:
         password: ${{ secrets.ACR_PASSWORD }}
 
     - name: Build and push Docker image
-      working-directory: ./backend  # Set working directory to backend folder
       run: |
         docker build -t ${{ env.ACR_REGISTRY }}/${{ env.IMAGE_NAME }}:latest .
         docker push ${{ env.ACR_REGISTRY }}/${{ env.IMAGE_NAME }}:latest
