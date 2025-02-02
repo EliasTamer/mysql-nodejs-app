@@ -24,9 +24,7 @@ jobs:
     - name: Login to Azure
       uses: azure/login@v1
       with:
-        client-id: ${{ fromJson(secrets.AZURE_CREDENTIALS).clientId }}
-        tenant-id: ${{ fromJson(secrets.AZURE_CREDENTIALS).tenantId }}
-        subscription-id: ${{ fromJson(secrets.AZURE_CREDENTIALS).subscriptionId }}
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
 
     - name: Login to ACR
       uses: azure/docker-login@v1
