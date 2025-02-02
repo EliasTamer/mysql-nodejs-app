@@ -5,7 +5,7 @@ on:
     branches:
       - dev
     paths:
-      - 'backend/**'  # This ensures it only triggers for backend changes
+      - 'backend/**'
 
 env:
   ACR_REGISTRY: myacr997.azurecr.io
@@ -24,7 +24,7 @@ jobs:
     - name: Login to Azure
       uses: azure/login@v1
       with:
-        creds: '{"clientId":"${{ secrets.AZURE_CLIENT_ID }}","clientSecret":"${{ secrets.AZURE_CLIENT_SECRET }}","subscriptionId":"${{ secrets.AZURE_SUBSCRIPTION_ID }}","tenantId":"${{ secrets.AZURE_TENANT_ID }}"}'
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
 
     - name: Login to ACR
       uses: azure/docker-login@v1
@@ -34,7 +34,7 @@ jobs:
         password: ${{ secrets.ACR_PASSWORD }}
 
     - name: Build and push Docker image
-      working-directory: ./backend  # Added this to point to backend directory
+      working-directory: ./backend
       run: |
         docker build -t ${{ env.ACR_REGISTRY }}/${{ env.IMAGE_NAME }}:latest .
         docker push ${{ env.ACR_REGISTRY }}/${{ env.IMAGE_NAME }}:latest
