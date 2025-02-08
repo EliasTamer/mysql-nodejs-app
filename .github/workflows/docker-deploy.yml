@@ -1,0 +1,46 @@
+name: Docker CI/CD to Azure
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'backend/**'
+
+env:
+  ACR_REGISTRY: myacr997.azurecr.io
+  IMAGE_NAME: my-prod-image
+  APP_SERVICE_NAME: mybackend-app
+  RESOURCE_GROUP: my-acr-rg
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Login to Azure
+      uses: azure/login@v1
+      with:
+        creds: '{"clientId":"${{ secrets.AZURE_CLIENT_ID }}","clientSecret":"${{ secrets.AZURE_CLIENT_SECRET }}","subscriptionId":"${{ secrets.AZURE_SUBSCRIPTION_ID }}","tenantId":"${{ secrets.AZURE_TENANT_ID }}"}'
+
+    - name: Login to ACR
+      uses: azure/docker-login@v1
+      with:
+        login-server: ${{ env.ACR_REGISTRY }}
+        username: ${{ secrets.ACR_USERNAME }}
+        password: ${{ secrets.ACR_PASSWORD }}
+
+    - name: Build and push Docker image
+      working-directory: ./backend
+      run: |
+        docker build -t ${{ env.ACR_REGISTRY }}/${{ env.IMAGE_NAME }}:latest .
+        docker push ${{ env.ACR_REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+
+    - name: Deploy to Azure App Service
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: ${{ env.APP_SERVICE_NAME }}
+        images: ${{ env.ACR_REGISTRY }}/${{ env.IMAGE_NAME }}:latest
