@@ -21,10 +21,7 @@ app.use("/api/orders", ordersRoutes);
 app.get('/', (req, res) => {
     const dummyData = {
         env: "staging",
-        id: 1,
-        name: 'John Doe',
-        email: 'john.doe@example.com',
-        message: 'Hello, this is some dummy data!'
+        message: 'This is the staging env!'
     };
 
     res.json(dummyData);
