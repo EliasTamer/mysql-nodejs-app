@@ -30,6 +30,7 @@ const connection = mysql.createConnection({
 
 app.get('/', (req, res) => {
     const dummyData = {
+        env: "prod",
         id: 1,
         name: 'John Doe',
         email: 'john.doe@example.com',
