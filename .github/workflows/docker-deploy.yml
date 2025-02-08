@@ -9,8 +9,8 @@ on:
 
 env:
   ACR_REGISTRY: myacr997.azurecr.io
-  IMAGE_NAME: my-backend-image
-  APP_SERVICE_NAME: mybackend-app
+  IMAGE_NAME: my-staging-image
+  APP_SERVICE_NAME: mybackend-app/staging
   RESOURCE_GROUP: my-acr-rg
 
 jobs:
